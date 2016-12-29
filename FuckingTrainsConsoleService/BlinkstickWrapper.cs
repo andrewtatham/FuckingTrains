@@ -7,7 +7,6 @@ namespace FuckingTrainsConsoleService
     internal class BlinkstickWrapper
     {
         private const int NumberOfLeds = 2;
-        private readonly BlinkStick _blinkstick = BlinkStick.FindFirst();
 
         private const string StateChangedColour = "#ffffff";
         private const string OffColour = "#000000";
@@ -20,6 +19,7 @@ namespace FuckingTrainsConsoleService
         private const string CrystallBallColour = "#ff00ff";
         private const string ServiceDown = "#0000ff";
         private const string NoTrainsColour = "#ff0000";
+        private readonly BlinkStick _blinkstick = BlinkStick.FindFirst();
 
         public BlinkstickWrapper()
         {
@@ -30,9 +30,8 @@ namespace FuckingTrainsConsoleService
                     //Set mode to WS2812. Read more about modes here:
                     //http://www.blinkstick.com/help/tutorials/blinkstick-pro-modes
                     _blinkstick.SetMode(2);
-                    
+
                     Off();
-    
                 }
                 else
                 {
@@ -43,12 +42,11 @@ namespace FuckingTrainsConsoleService
             {
                 Console.WriteLine("BlinkStick not found");
             }
-
         }
 
         private void Blink(string hexColour, int n = 1, int durationMilliseconds = 100)
         {
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 Both(hexColour);
                 Thread.Sleep(durationMilliseconds);

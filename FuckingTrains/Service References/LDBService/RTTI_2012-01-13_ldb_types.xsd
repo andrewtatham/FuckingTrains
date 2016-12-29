@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:ct="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" xmlns:tns="http://thalesgroup.com/RTTI/2012-01-13/ldb/types" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2012-01-13/ldb/types" id="RTTI_2012-01-13_ldb_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="rtti_2007-10-10_ldb_common_types.xsd" namespace="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:ct="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes"
+           xmlns:tns="http://thalesgroup.com/RTTI/2012-01-13/ldb/types" attributeFormDefault="unqualified"
+           elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+           id="RTTI_2012-01-13_ldb_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="rtti_2007-10-10_ldb_common_types.xsd"
+             namespace="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" />
   <xs:simpleType name="TimeType">
     <xs:annotation>
       <xs:documentation>Represents a time displayed in a departure board. This will often be a true time in the format HH:MM (possibly with appended characters, such as "*"), but may also be a string, such as "No report" or "cancelled"</xs:documentation>
@@ -217,7 +222,8 @@
       <xs:documentation>A list of calling point lists representing multiple journey segments. Refer to the documentation for how these lists should be handled.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="callingPointList" nillable="true" type="tns:ArrayOfCallingPoints" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="callingPointList" nillable="true"
+                  type="tns:ArrayOfCallingPoints" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="StationBoard">
@@ -292,7 +298,8 @@
       <xs:documentation>A list of Adhoc Alers related to this locationa for this service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="adhocAlertText" nillable="true" type="tns:AdhocAlertTextType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="adhocAlertText" nillable="true"
+                  type="tns:AdhocAlertTextType" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ServiceDetails">

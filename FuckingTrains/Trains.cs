@@ -9,6 +9,9 @@ namespace FuckingTrains
 {
     public static class Trains
     {
+        private static readonly DataContractSerializer Serializer =
+            new DataContractSerializer(typeof (GetDepartureBoardResponse));
+
         public static TrainResult IsMyFuckingTrainOnTime(Journey journey, bool useCannedResponse = false)
         {
             var trainResult = new TrainResult();
@@ -40,14 +43,15 @@ namespace FuckingTrains
             {
                 response = GetRealDepartureBoardResponse(origin, destination, departureTime, offset);
             }
-            if (response==null)
+            if (response == null)
             {
                 trainResult.FuckingTrainState = FuckingTrainStates.TheFuckingServiceIsDownOrSomething;
                 return trainResult;
             }
             var result = response.GetStationBoardResult;
 
-            Console.WriteLine("[{0}] {1} => [{2}] {3}", result.crs, result.locationName, result.filtercrs, result.filterLocationName);
+            Console.WriteLine("[{0}] {1} => [{2}] {3}", result.crs, result.locationName, result.filtercrs,
+                result.filterLocationName);
 
             trainResult.FuckingFrom = string.Format("[{0}] {1}", result.crs, result.locationName);
             trainResult.FuckingTo = string.Format("[{0}] {1}", result.filtercrs, result.filterLocationName);
@@ -69,8 +73,6 @@ namespace FuckingTrains
 
             if (result?.trainServices != null)
             {
-
-
                 var t = FindMyFuckingTrain(result.trainServices, departureTime);
                 if (t == null)
                 {
@@ -80,22 +82,12 @@ namespace FuckingTrains
                     }
                     trainResult.FuckingTrainState = FuckingTrainStates.IDontFuckingKnow;
                     return trainResult;
-
                 }
-                else
-                {
-                    Console.WriteLine(t.ToString());
-                    return t;
-                }
-
+                Console.WriteLine(t.ToString());
+                return t;
             }
-            else
-            {
-                trainResult.FuckingTrainState = FuckingTrainStates.NoFuckingTrains;
-                return trainResult;
-            }
-
-
+            trainResult.FuckingTrainState = FuckingTrainStates.NoFuckingTrains;
+            return trainResult;
         }
 
         private static TrainResult FindMyFuckingTrain(ServiceItem[] trainServices, DateTime departureTime)
@@ -105,10 +97,7 @@ namespace FuckingTrains
             {
                 return new TrainResult(train);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private static bool IsTheSameFuckingTime(ServiceItem trainService, DateTime departureTime)
@@ -118,8 +107,6 @@ namespace FuckingTrains
             var m = Convert.ToInt32(x[1]);
             return h == departureTime.Hour && m == departureTime.Minute;
         }
-
-        private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(GetDepartureBoardResponse));
 
         private static GetDepartureBoardResponse GetRealDepartureBoardResponse(string origin, string destination,
             DateTime departureTime, int offset)
@@ -134,7 +121,7 @@ namespace FuckingTrains
             //# the time value may have an asterisk ("*") appended to indicate that the value is "uncertain".
 
             LDBServiceSoap ldb = new LDBServiceSoapClient();
-            var accessToken = new AccessToken()
+            var accessToken = new AccessToken
             {
                 TokenValue = "4708e677-42fc-4d32-99ba-d348279fd1e4"
             };
@@ -154,10 +141,9 @@ namespace FuckingTrains
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
             }
-   
+
             return response;
         }
 
@@ -166,14 +152,13 @@ namespace FuckingTrains
         {
             using (var stream = new XmlTextReader("last_response.xml"))
             {
-                return (GetDepartureBoardResponse)Serializer.ReadObject(stream);
+                return (GetDepartureBoardResponse) Serializer.ReadObject(stream);
             }
-
         }
 
-        private static void WhickFuckingWayAmIGoing(Journey journey, JourneyType journeyType, out string origin, out string destination)
+        private static void WhickFuckingWayAmIGoing(Journey journey, JourneyType journeyType, out string origin,
+            out string destination)
         {
-
             switch (journeyType)
             {
                 case JourneyType.OutboundToday:
@@ -188,7 +173,6 @@ namespace FuckingTrains
                 default:
                     throw new Exception();
             }
-
         }
 
         private static DateTime WhenIsTheNextFuckingTrain(Journey journey, JourneyType journeyType, DateTime today,
@@ -232,7 +216,5 @@ namespace FuckingTrains
             }
             return journeyType;
         }
-
-
     }
 }
