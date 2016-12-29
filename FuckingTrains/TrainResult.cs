@@ -26,16 +26,34 @@ namespace FuckingTrains
             FuckingCancellationReason = train.cancelReason;
             FuckingDelayReason = train.delayReason;
 
-            isFuckingCancelled = train.isCancelled;
-            isFuckingDelayed = !train.isCancelled && (
+            bool isFuckingCancelled = train.isCancelled;
+            bool isFuckingDelayed = !train.isCancelled && (
                 train.etd.ToUpperInvariant() != "ON TIME"
                 || !String.IsNullOrWhiteSpace(train.delayReason)
                 );
-            isOnTime = !train.isCancelled
+            bool isOnTime = !train.isCancelled
                        && train.etd.ToUpperInvariant() == "ON TIME"
                        && String.IsNullOrWhiteSpace(train.delayReason);
+
+            if (isOnTime)
+            {
+                FuckingTrainState = FuckingTrainStates.OnFuckingTimeApparently;
+            }
+            else if (isFuckingDelayed)
+            {
+                FuckingTrainState = FuckingTrainStates.FuckingDelayed;
+            }
+            else if (isFuckingCancelled)
+            {
+                FuckingTrainState = FuckingTrainStates.FuckingCancelled;
+            }
+            else
+            {
+                FuckingTrainState = FuckingTrainStates.IDontFuckingKnow;
+            }
         }
 
+        public FuckingTrainStates FuckingTrainState { get; set; }
 
 
         public string FuckingPlatform { get; private set; }
@@ -49,22 +67,10 @@ namespace FuckingTrains
         public string StandardTimeOfFuckingDeparture { get; private set; }
         public string EstimatedTimeOfFuckingDeparture { get; private set; }
 
-        public bool isOnTime { get; private set; }
-
-        public bool isFuckingDelayed { get; private set; }
-
-        public bool isFuckingCancelled { get; private set; }
-
-
-        public bool IsTooFuckingFarInTheFuture { get; set; }
-        public bool TheFuckingServiceIsDownOrSomething { get; set; }
-
-        public bool NoFuckingServicesAvailable { get; set; }
-
-
         public string FuckingFrom { get; set; }
         public string FuckingTo { get; set; }
         public List<string> Messages { get; private set; } = new List<string>();
+        public int? FuckingDelayInMinutes { get; set; }
 
         private static string FormatTrain(TrainResult train)
         {
@@ -75,30 +81,35 @@ namespace FuckingTrains
 
             sb.AppendFormat("{0} from {1} to {2} is ", train.StandardTimeOfFuckingDeparture, train.FuckingFrom, train.FuckingTo);
 
-            if (train.isFuckingCancelled)
+            switch (train.FuckingTrainState)
             {
-                sb.Append("FUCKING CANCELLED");
-                if (!String.IsNullOrWhiteSpace(train.FuckingCancellationReason))
-                {
-                    sb.AppendFormat(" DUE TO {0}", train.FuckingCancellationReason);
-                }
+                case FuckingTrainStates.OnFuckingTimeApparently:
+                    sb.Append("ON FUCKING TIME APPARENTLY");
+                    break;
+                case FuckingTrainStates.FuckingDelayed:
+                    sb.AppendFormat("FUCKING DELAYED {0}", train.EstimatedTimeOfFuckingDeparture);
+                    if (!String.IsNullOrWhiteSpace(train.FuckingDelayReason))
+                    {
+                        sb.AppendFormat(" DUE TO {0}", train.FuckingDelayReason);
+                    }
+                    break;
+                case FuckingTrainStates.FuckingCancelled:
+                    sb.Append("FUCKING CANCELLED");
+                    if (!String.IsNullOrWhiteSpace(train.FuckingCancellationReason))
+                    {
+                        sb.AppendFormat(" DUE TO {0}", train.FuckingCancellationReason);
+                    }
+                    break;
+                case FuckingTrainStates.YouNeedAFuckingCrystalBall:
+                    break;
+                case FuckingTrainStates.TheFuckingServiceIsDownOrSomething:
+                    break;
+                case FuckingTrainStates.NoFuckingTrains:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("I DONT FUCKING KNOW");
             }
-            else if (train.isFuckingDelayed)
-            {
-                sb.AppendFormat("FUCKING DELAYED {0}", train.EstimatedTimeOfFuckingDeparture);
-                if (!String.IsNullOrWhiteSpace(train.FuckingDelayReason))
-                {
-                    sb.AppendFormat(" DUE TO {0}", train.FuckingDelayReason);
-                }
-            }
-            else if (train.isOnTime)
-            {
-                sb.Append("ON FUCKING TIME APPARENTLY");
-            }
-            else
-            {
-                sb.Append("I DONT FUCKING KNOW");
-            }
+
             if (train.FuckingPlatform != null)
             {
                 sb.AppendFormat(" from fucking platform {0}", train.FuckingPlatform);

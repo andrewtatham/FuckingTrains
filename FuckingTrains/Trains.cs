@@ -33,7 +33,7 @@ namespace FuckingTrains
             }
             else if (offset > 120)
             {
-                trainResult.IsTooFuckingFarInTheFuture = true;
+                trainResult.FuckingTrainState = FuckingTrainStates.YouNeedAFuckingCrystalBall;
                 return trainResult;
             }
             else
@@ -42,7 +42,7 @@ namespace FuckingTrains
             }
             if (response==null)
             {
-                trainResult.TheFuckingServiceIsDownOrSomething = true;
+                trainResult.FuckingTrainState = FuckingTrainStates.TheFuckingServiceIsDownOrSomething;
                 return trainResult;
             }
             var result = response.GetStationBoardResult;
@@ -63,24 +63,35 @@ namespace FuckingTrains
 
             if (!result.areServicesAvailable)
             {
-                trainResult.NoFuckingServicesAvailable = true;
+                trainResult.FuckingTrainState = FuckingTrainStates.NoFuckingTrains;
                 return trainResult;
             }
 
             if (result?.trainServices != null)
             {
-                foreach (var train in result.trainServices)
-                {
-                    Console.WriteLine(new TrainResult(train));
-                }
+
 
                 var t = FindMyFuckingTrain(result.trainServices, departureTime);
-                Console.WriteLine(t.ToString());
-                return t;
+                if (t == null)
+                {
+                    foreach (var train in result.trainServices)
+                    {
+                        Console.WriteLine(new TrainResult(train));
+                    }
+                    trainResult.FuckingTrainState = FuckingTrainStates.IDontFuckingKnow;
+                    return trainResult;
+
+                }
+                else
+                {
+                    Console.WriteLine(t.ToString());
+                    return t;
+                }
+
             }
             else
             {
-                trainResult.NoFuckingServicesAvailable = true;
+                trainResult.FuckingTrainState = FuckingTrainStates.NoFuckingTrains;
                 return trainResult;
             }
 
@@ -89,7 +100,15 @@ namespace FuckingTrains
 
         private static TrainResult FindMyFuckingTrain(ServiceItem[] trainServices, DateTime departureTime)
         {
-            return new TrainResult(trainServices.Single(t => IsTheSameFuckingTime(t, departureTime)));
+            var train = trainServices.SingleOrDefault(t => IsTheSameFuckingTime(t, departureTime));
+            if (train != null)
+            {
+                return new TrainResult(train);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private static bool IsTheSameFuckingTime(ServiceItem trainService, DateTime departureTime)
