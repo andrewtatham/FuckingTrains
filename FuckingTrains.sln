@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrains", "Fuckingtrains\FuckingTrains.csproj", "{37B16E8B-6D6B-450E-900B-FFBE176116D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrainsWebApi", "FuckingTrainsWebApi\FuckingTrainsWebApi.csproj", "{C688DF60-C13E-40C6-9824-E81DC8692874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrainsConsoleService", "FuckingTrainsConsoleService\FuckingTrainsConsoleService.csproj", "{946DE71E-5066-434C-8C8F-EDD10DF589F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{37B16E8B-6D6B-450E-900B-FFBE176116D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B16E8B-6D6B-450E-900B-FFBE176116D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B16E8B-6D6B-450E-900B-FFBE176116D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C688DF60-C13E-40C6-9824-E81DC8692874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C688DF60-C13E-40C6-9824-E81DC8692874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C688DF60-C13E-40C6-9824-E81DC8692874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C688DF60-C13E-40C6-9824-E81DC8692874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{946DE71E-5066-434C-8C8F-EDD10DF589F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946DE71E-5066-434C-8C8F-EDD10DF589F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946DE71E-5066-434C-8C8F-EDD10DF589F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{946DE71E-5066-434C-8C8F-EDD10DF589F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

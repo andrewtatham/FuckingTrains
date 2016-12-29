@@ -9,8 +9,10 @@ namespace FuckingTrains
 {
     public static class Trains
     {
-        public static void IsMyFuckingTrainOnTime(Journey journey, bool useCannedResponse = false)
+        public static TrainResult IsMyFuckingTrainOnTime(Journey journey, bool useCannedResponse = false)
         {
+            var trainResult = new TrainResult();
+
             var now = DateTime.Now;
             var today = DateTime.Today;
             var tommorrow = today.AddDays(1);
@@ -31,10 +33,8 @@ namespace FuckingTrains
             }
             else if (offset > 120)
             {
-                Console.WriteLine("YOU NEED A FUCKING CRYSTAL BALL");
-
-                return;
-
+                trainResult.IsTooFuckingFarInTheFuture = true;
+                return trainResult;
             }
             else
             {
@@ -42,38 +42,62 @@ namespace FuckingTrains
             }
             if (response==null)
             {
-                Console.WriteLine("THE FUCKING SERVICE IS DOWN OR SOMETHING");
-                return;
+                trainResult.TheFuckingServiceIsDownOrSomething = true;
+                return trainResult;
             }
             var result = response.GetStationBoardResult;
 
             Console.WriteLine("[{0}] {1} => [{2}] {3}", result.crs, result.locationName, result.filtercrs, result.filterLocationName);
+
+            trainResult.FuckingFrom = string.Format("[{0}] {1}", result.crs, result.locationName);
+            trainResult.FuckingTo = string.Format("[{0}] {1}", result.filtercrs, result.filterLocationName);
+
+
             if (result.nrccMessages != null)
             {
                 foreach (var nrccMessage in result.nrccMessages)
                 {
-                    Console.WriteLine(" * {0}", nrccMessage.Value);
+                    trainResult.Messages.Add(nrccMessage.Value);
                 }
             }
 
             if (!result.areServicesAvailable)
             {
-                Console.WriteLine("NO FUCKING SERVICES ARE AVAILIABLE");
+                trainResult.NoFuckingServicesAvailable = true;
+                return trainResult;
             }
 
             if (result?.trainServices != null)
             {
                 foreach (var train in result.trainServices)
                 {
-                    Console.WriteLine(FormatTrain(train));
+                    Console.WriteLine(new TrainResult(train));
                 }
+
+                var t = FindMyFuckingTrain(result.trainServices, departureTime);
+                Console.WriteLine(t.ToString());
+                return t;
             }
             else
             {
-                Console.WriteLine("NO FUCKING TRAINS");
+                trainResult.NoFuckingServicesAvailable = true;
+                return trainResult;
             }
 
 
+        }
+
+        private static TrainResult FindMyFuckingTrain(ServiceItem[] trainServices, DateTime departureTime)
+        {
+            return new TrainResult(trainServices.Single(t => IsTheSameFuckingTime(t, departureTime)));
+        }
+
+        private static bool IsTheSameFuckingTime(ServiceItem trainService, DateTime departureTime)
+        {
+            var x = trainService.std.Split(':');
+            var h = Convert.ToInt32(x[0]);
+            var m = Convert.ToInt32(x[1]);
+            return h == departureTime.Hour && m == departureTime.Minute;
         }
 
         private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(GetDepartureBoardResponse));
@@ -81,6 +105,15 @@ namespace FuckingTrains
         private static GetDepartureBoardResponse GetRealDepartureBoardResponse(string origin, string destination,
             DateTime departureTime, int offset)
         {
+            //# Live Departure Boards Web Service (LDBWS / OpenLDBWS)
+            //# https://lite.realtime.nationalrail.co.uk/OpenLDBWS/
+
+            //# In the objects detailed above, certain properties were specified to return time values.
+            //#  These values will either return absolute times, formatted as a HH:MM string,
+            //# or a text string such as (but not limited to) "On time", "No report" or "Cancelled".
+            //# These times should be output in the user interface exactly as supplied. In some cases,
+            //# the time value may have an asterisk ("*") appended to indicate that the value is "uncertain".
+
             LDBServiceSoap ldb = new LDBServiceSoapClient();
             var accessToken = new AccessToken()
             {
@@ -181,63 +214,6 @@ namespace FuckingTrains
             return journeyType;
         }
 
-        private static string FormatTrain(ServiceItem train)
-        {
-            //# Live Departure Boards Web Service (LDBWS / OpenLDBWS)
-            //# https://lite.realtime.nationalrail.co.uk/OpenLDBWS/
 
-            //# In the objects detailed above, certain properties were specified to return time values.
-            //#  These values will either return absolute times, formatted as a HH:MM string,
-            //# or a text string such as (but not limited to) "On time", "No report" or "Cancelled".
-            //# These times should be output in the user interface exactly as supplied. In some cases,
-            //# the time value may have an asterisk ("*") appended to indicate that the value is "uncertain".
-
-            var sb = new StringBuilder();
-
-            bool isFuckingCancelled = train.isCancelled;
-
-            bool isFuckingDelayed = !train.isCancelled
-                                    && (train.etd.ToUpperInvariant() != "ON TIME"
-                                        || !String.IsNullOrWhiteSpace(train.delayReason));
-            bool isOnTime = !train.isCancelled
-                            && train.etd.ToUpperInvariant() == "ON TIME"
-                            && String.IsNullOrWhiteSpace(train.delayReason);
-            sb.AppendFormat("{0} from {1} to {2} is ",
-                train.std,
-                String.Join(" ", train.origin?.Select(o => o.locationName)),
-                String.Join(" ", train.destination?.Select(d => d.locationName))
-                );
-
-            if (isFuckingCancelled)
-            {
-                sb.Append("FUCKING CANCELLED");
-                if (!String.IsNullOrWhiteSpace(train.cancelReason))
-                {
-                    sb.AppendFormat(" DUE TO {0}", train.cancelReason);
-                }
-            }
-            else if (isFuckingDelayed)
-            {
-                sb.AppendFormat("FUCKING DELAYED {0}", train.etd);
-                if (!String.IsNullOrWhiteSpace(train.delayReason))
-                {
-                    sb.AppendFormat(" DUE TO {0}", train.delayReason);
-                }
-            }
-            else if (isOnTime)
-            {
-                sb.Append("ON FUCKING TIME APPARENTLY");
-            }
-            else
-            {
-                sb.Append("I DONT FUCKING KNOW");
-            }
-            if (train.platform != null)
-            {
-                sb.AppendFormat(" from fucking platform {0}", train.platform);
-            }
-            sb.AppendFormat(" (fucking {0})", train.@operator).AppendLine();
-            return sb.ToString();
-        }
     }
 }
