@@ -12,15 +12,13 @@ namespace FuckingTrains
         {
             Outbound = new JourneyLeg
             {
-                H = 7,
-                M = 40,
+                Time = "7:40",
                 From = "KLF",
                 To = "ILK"
             },
             Inbound = new JourneyLeg
             {
-                H = 16,
-                M = 38,
+                Time="16:38",
                 From = "ILK",
                 To = "KLF"
             }
@@ -30,15 +28,13 @@ namespace FuckingTrains
         {
             Outbound = new JourneyLeg
             {
-                H = 20,
-                M = 12,
+                Time = "7:40",
                 From = "LDS",
-                To = "MAN"
+                To = "KGX"
             },
             Inbound = new JourneyLeg
             {
-                H = 19,
-                M = 15,
+                Time = "17:40",
                 From = "BDQ",
                 To = "LDS"
             }

@@ -8,6 +8,8 @@ namespace FuckingTrains
 {
     public class TrainResult
     {
+        private FuckingTrainStates _fuckingTrainState;
+
         public TrainResult()
         {
         }
@@ -52,8 +54,16 @@ namespace FuckingTrains
             }
         }
 
-        public FuckingTrainStates FuckingTrainState { get; set; }
-
+        public FuckingTrainStates FuckingTrainState
+        {
+            get { return _fuckingTrainState; }
+            set
+            {
+                _fuckingTrainState = value;
+                FuckingTrainStateDescription = _fuckingTrainState.ToString();
+            }
+        }
+        public string FuckingTrainStateDescription { get; private set; }
 
         public string FuckingPlatform { get; }
 
@@ -63,21 +73,27 @@ namespace FuckingTrains
 
         public string FuckingCancellationReason { get; }
 
-        public string StandardTimeOfFuckingDeparture { get; }
+        public string StandardTimeOfFuckingDeparture { get; set; }
         public string EstimatedTimeOfFuckingDeparture { get; }
 
         public string FuckingFrom { get; set; }
         public string FuckingTo { get; set; }
         public List<string> Messages { get; private set; } = new List<string>();
         public int? FuckingDelayInMinutes { get; set; }
+        public TrainResult[] AllFuckingServices { get; set; }
+
 
         private static string FormatTrain(TrainResult train)
         {
             var sb = new StringBuilder();
 
+            if (!string.IsNullOrEmpty(train.StandardTimeOfFuckingDeparture)
+                && !string.IsNullOrEmpty(train.FuckingFrom) 
+                && !string.IsNullOrEmpty(train.FuckingTo))
+            {
+                sb.AppendFormat("The {0} from {1} to {2} is ", train.StandardTimeOfFuckingDeparture, train.FuckingFrom, train.FuckingTo);
+            }
 
-            sb.AppendFormat("{0} from {1} to {2} is ", train.StandardTimeOfFuckingDeparture, train.FuckingFrom,
-                train.FuckingTo);
 
             switch (train.FuckingTrainState)
             {
@@ -99,20 +115,38 @@ namespace FuckingTrains
                     }
                     break;
                 case FuckingTrainStates.YouNeedAFuckingCrystalBall:
+                    sb.Append("YOU NEED A FUCKING CRYSTAL BALL");
                     break;
                 case FuckingTrainStates.TheFuckingServiceIsDownOrSomething:
+                    sb.Append("THE FUCKING SERVICE IS DOWN OR SOMETHING");
                     break;
                 case FuckingTrainStates.NoFuckingTrains:
+                    sb.Append("NO FUCKING TRAINS");
+                    break;
+                case FuckingTrainStates.IDontFuckingKnow:
+                    sb.Append("I DONT FUCKING KNOW");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("I DONT FUCKING KNOW");
+                    throw new ArgumentOutOfRangeException(train.FuckingTrainState.ToString());
             }
 
-            if (train.FuckingPlatform != null)
+            if (!string.IsNullOrEmpty(train.FuckingPlatform))
             {
-                sb.AppendFormat(" FROM FUCKING PLATFORM {0}", train.FuckingPlatform);
+                sb.AppendFormat(" from fucking platform: {0}", train.FuckingPlatform);
             }
-            sb.AppendFormat(" (FUCKING {0})", train.ShowerOfBastards).AppendLine();
+            if (!string.IsNullOrEmpty(train.ShowerOfBastards))
+            {
+                sb.AppendFormat(" (shower of bastards: {0})", train.ShowerOfBastards).AppendLine();
+            }
+
+            if (train.AllFuckingServices!=null)
+            {
+                foreach (var service in train.AllFuckingServices)
+                {
+                    sb.AppendLine(FormatTrain(service));
+                }
+            }
+
             return sb.ToString();
         }
 

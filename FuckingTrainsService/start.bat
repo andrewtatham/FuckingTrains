@@ -1,0 +1,3 @@
+sc start FuckingTrainsService
+timeout 2
+sc query FuckingTrainsService

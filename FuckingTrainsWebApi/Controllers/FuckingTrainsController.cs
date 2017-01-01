@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using FuckingTrains;
@@ -8,9 +9,11 @@ namespace FuckingTrainsWebApi.Controllers
 {
     public class FuckingTrainsController : ApiController
     {
+        [HttpGet]
         public IHttpActionResult IsMyFuckingTrainOnTime()
         {
-            var train = Trains.IsMyFuckingTrainOnTime(Journeys.Commute);
+            var train = Trains.IsMyFuckingTrainOnTime();
+            Console.WriteLine(train.ToString());
             return Ok(train);
         }
     }
