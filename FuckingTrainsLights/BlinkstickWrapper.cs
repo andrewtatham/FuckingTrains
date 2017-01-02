@@ -1,41 +1,40 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using BlinkStickDotNet;
 using FuckingTrains;
 
 namespace FuckingTrainsLights
 {
-    public class BlinkstickWrapper
+    class BlinkstickWrapper : ITrainStateLights
     {
-        private static FuckingTrainStates? previousFuckingTrainState;
-        private static readonly Random RandomyRandom = new Random();
-
-        private const int NumberOfLeds = 2;
-
-        private const string StateChangedColour = "#ffffff";
+        private readonly int _n;
+        
+        private const string StateChangedColour = "#101010";
         private const string OffColour = "#000000";
 
-        private const string OnTimeColour = "#00ff00";
-        private const string DelayedColour = "#ffff00";
-        private const string CancelledColour = "#ff0000";
-        private const string NoTrainsColour = "#ff0000";
+        private const string OnTimeColour = "#001000";
+        private const string DelayedColour = "#101000";
+        private const string CancelledColour = "#100000";
+        private const string NoTrainsColour = "#100000";
 
-        private const string DontKnowColour = "#00ffff";
-        private const string CrystallBallColour = "#ff00ff";
-        private const string ServiceDown = "#0000ff";
+        private const string DontKnowColour = "#001010";
+        private const string CrystallBallColour = "#100010";
+        private const string ServiceDown = "#000010";
 
-        private readonly BlinkStick _blinkstick = BlinkStick.FindFirst();
+        private readonly BlinkStick _blinkstick;
 
-        private static readonly BlinkstickWrapper _instance = new BlinkstickWrapper();
+        private static FuckingTrainStates? previousFuckingTrainState;
+       
 
-        public static BlinkstickWrapper Instance()
+        public BlinkstickWrapper(BlinkStick blinkstick, int n)
         {
-            return _instance;
-        }
+            _n = n;
+            _blinkstick = blinkstick;
 
-        private BlinkstickWrapper()
-        {
             if (_blinkstick != null)
             {
                 if (_blinkstick.OpenDevice())
@@ -44,7 +43,7 @@ namespace FuckingTrainsLights
                     //http://www.blinkstick.com/help/tutorials/blinkstick-pro-modes
                     _blinkstick.SetMode(2);
 
-                    Both(OffColour);
+                    All(OffColour);
                 }
                 else
                 {
@@ -56,58 +55,40 @@ namespace FuckingTrainsLights
                 throw new Exception("BlinkStick not found");
             }
         }
-
         private void Blink(string hexColour, int n = 1, int durationMilliseconds = 100)
         {
             for (var i = 0; i < n; i++)
             {
-                Both(hexColour);
+                All(hexColour);
                 Thread.Sleep(durationMilliseconds);
-                Both(OffColour);
+                All(OffColour);
                 Thread.Sleep(durationMilliseconds);
             }
         }
 
-        private void Both(string hexColour)
+        private void All(string hexColour)
         {
-            for (byte i = 0; i < NumberOfLeds; i++)
+            for (byte i = 0; i < _n; i++)
             {
                 _blinkstick.SetColor(0, i, hexColour);
             }
         }
 
 
-        public void TestBlinkstickTrainStates()
-        {
-            foreach (var state in Enum.GetValues(typeof(FuckingTrainStates)))
-            {
-                var result = new TrainResult
-                {
-                    FuckingTrainState = (FuckingTrainStates)state,
-                    FuckingDelayInMinutes =
-                        (FuckingTrainStates)state == FuckingTrainStates.FuckingDelayed ? RandomyRandom.Next(1, 10) : (int?)null
-                };
-                SetBlinkstickState(result);
-                Thread.Sleep(500);
-            }
-        }
-
         public void BlinkstickOff()
         {
-            Both(OffColour);
+            All(OffColour);
             previousFuckingTrainState = null;
             Thread.Sleep(100);
         }
 
         public void Hello()
         {
-            Blink("#ff0000");
-            Blink("#ffff00");
-            Blink("#00ff00");
-            Blink("#00ffff");
-            Blink("#0000ff");
-            Blink("#ff00ff");
+            Blink("#080808");
         }
+
+
+
         public void SetBlinkstickState(TrainResult train)
         {
             if (!previousFuckingTrainState.HasValue || previousFuckingTrainState != train.FuckingTrainState)
@@ -120,10 +101,10 @@ namespace FuckingTrainsLights
             switch (train.FuckingTrainState)
             {
                 case FuckingTrainStates.IDontFuckingKnow:
-                    Both(DontKnowColour);
+                    All(DontKnowColour);
                     break;
                 case FuckingTrainStates.OnFuckingTimeApparently:
-                    Both(OnTimeColour);
+                    All(OnTimeColour);
                     break;
                 case FuckingTrainStates.FuckingDelayed:
                     int? delayInMinutes = train.FuckingDelayInMinutes;
@@ -131,25 +112,24 @@ namespace FuckingTrainsLights
                     {
                         Blink(DelayedColour, delayInMinutes.Value);
                     }
-                    Both(DelayedColour);
+                    All(DelayedColour);
                     break;
                 case FuckingTrainStates.FuckingCancelled:
-                    Both(CancelledColour);
+                    All(CancelledColour);
                     break;
                 case FuckingTrainStates.YouNeedAFuckingCrystalBall:
-                    Both(CrystallBallColour);
+                    All(CrystallBallColour);
                     break;
                 case FuckingTrainStates.TheFuckingServiceIsDownOrSomething:
-                    Both(ServiceDown);
+                    All(ServiceDown);
                     break;
                 case FuckingTrainStates.NoFuckingTrains:
-                    Both(NoTrainsColour);
+                    All(NoTrainsColour);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-
 
 
     }

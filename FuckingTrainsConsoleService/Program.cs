@@ -7,7 +7,7 @@ namespace FuckingTrainsConsoleService
 {
     internal class Program
     {
-        private static readonly BlinkstickWrapper blinkstick = BlinkstickWrapper.Instance();
+        private static readonly BlinkstickManager blinkstick = BlinkstickManager.Instance();
         private static void Main(string[] args)
         {
             try

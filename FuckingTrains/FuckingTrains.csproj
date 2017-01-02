@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FuckingTime.cs" />
     <Compile Include="FuckingTrainStates.cs" />
     <Compile Include="Journeys.cs" />
+    <Compile Include="MonitorSettings.cs" />
     <Compile Include="TrainResult.cs" />
     <Compile Include="Trains.cs" />
     <Compile Include="Journey.cs" />

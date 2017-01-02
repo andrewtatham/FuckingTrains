@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -12,27 +13,27 @@ namespace FuckingTrains
         private static readonly DataContractSerializer Serializer =
             new DataContractSerializer(typeof (GetDepartureBoardResponse));
 
+        private static readonly Journey Journey = Journeys.Commute;
+
         public static TrainResult IsMyFuckingTrainOnTime()
         {
-            Journey journey = Journeys.Commute;
-
             var trainResult = new TrainResult();
 
             var now = DateTime.Now;
             var today = DateTime.Today;
             var tommorrow = today.AddDays(1);
 
-            var journeyLeg = WhichFuckingJourneyLegAmIOn(journey, now);
+            var journeyLeg = WhichFuckingJourneyLegAmIOn(Journey, now);
 
             string destination;
             string origin;
             string departsAt;
-            WhickFuckingWayAmIGoing(journey, journeyLeg, out origin, out destination, out departsAt);
+            WhickFuckingWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
             trainResult.FuckingFrom = origin;
             trainResult.FuckingTo = destination;
             trainResult.StandardTimeOfFuckingDeparture = departsAt;
 
-            var departureTime = WhenIsTheNextFuckingTrain(journey, journeyLeg, today, tommorrow);
+            var departureTime = WhenIsTheNextFuckingTrain(Journey, journeyLeg, today, tommorrow);
             var offset = Convert.ToInt32(Math.Round((departureTime - DateTime.Now).TotalMinutes));
             GetDepartureBoardResponse response;
             if (offset > 120)
@@ -158,12 +159,12 @@ namespace FuckingTrains
                 case JourneyType.OutboundTomorrow:
                     origin = journey.Outbound.From;
                     destination = journey.Outbound.To;
-                    departsAt = journey.Outbound.Time;
+                    departsAt = journey.Outbound.DepartureTime.Time;
                     break;
                 case JourneyType.ReturnToday:
                     origin = journey.Inbound.From;
                     destination = journey.Inbound.To;
-                    departsAt = journey.Inbound.Time;
+                    departsAt = journey.Inbound.DepartureTime.Time;
                     break;
                 default:
                     throw new Exception();
@@ -179,15 +180,15 @@ namespace FuckingTrains
             {
                 case JourneyType.OutboundToday:
                     departureTime = new DateTime(today.Year, today.Month, today.Day,
-                        journey.Outbound.H, journey.Outbound.M, 0);
+                        journey.Outbound.DepartureTime.H, journey.Outbound.DepartureTime.M, 0);
                     break;
                 case JourneyType.ReturnToday:
                     departureTime = new DateTime(today.Year, today.Month, today.Day,
-                        journey.Inbound.H, journey.Inbound.M, 0);
+                        journey.Inbound.DepartureTime.H, journey.Inbound.DepartureTime.M, 0);
                     break;
                 case JourneyType.OutboundTomorrow:
                     departureTime = new DateTime(tommorrow.Year, tommorrow.Month, tommorrow.Day,
-                        journey.Outbound.H, journey.Outbound.M, 0);
+                        journey.Outbound.DepartureTime.H, journey.Outbound.DepartureTime.M, 0);
                     break;
                 default:
                     throw new Exception();
@@ -195,14 +196,40 @@ namespace FuckingTrains
             return departureTime;
         }
 
+        private static DateTime WhenShouldIStartMonitoringTheNextFuckingTrain(Journey journey, JourneyType journeyType, DateTime today,
+    DateTime tommorrow)
+        {
+            DateTime departureTime;
+
+            switch (journeyType)
+            {
+                case JourneyType.OutboundToday:
+                    departureTime = new DateTime(today.Year, today.Month, today.Day,
+                        journey.Outbound.Monitor.From.H, journey.Outbound.Monitor.From.M, 0);
+                    break;
+                case JourneyType.ReturnToday:
+                    departureTime = new DateTime(today.Year, today.Month, today.Day,
+                        journey.Inbound.Monitor.From.H, journey.Inbound.Monitor.From.M, 0);
+                    break;
+                case JourneyType.OutboundTomorrow:
+                    departureTime = new DateTime(tommorrow.Year, tommorrow.Month, tommorrow.Day,
+                        journey.Outbound.Monitor.From.H, journey.Outbound.Monitor.From.M, 0);
+                    break;
+                default:
+                    throw new Exception();
+            }
+            return departureTime;
+        }
+
+
         private static JourneyType WhichFuckingJourneyLegAmIOn(Journey journey, DateTime now)
         {
             JourneyType journeyType;
-            if (now.Hour <= journey.Outbound.H + 1)
+            if (now.Hour <= journey.Outbound.DepartureTime.H + 1)
             {
                 journeyType = JourneyType.OutboundToday;
             }
-            else if (now.Hour <= journey.Inbound.H + 1)
+            else if (now.Hour <= journey.Inbound.DepartureTime.H + 1)
             {
                 journeyType = JourneyType.ReturnToday;
             }
@@ -211,6 +238,39 @@ namespace FuckingTrains
                 journeyType = JourneyType.OutboundTomorrow;
             }
             return journeyType;
+        }
+
+        public static DateTime WhenShouldIWakeUp()
+        {
+            var now = DateTime.Now;
+            var today = DateTime.Today;
+            var tommorrow = today.AddDays(1);
+            var journeyLeg = WhichFuckingJourneyLegAmIOn(Journey, now);
+
+            string destination;
+            string origin;
+            string departsAt;
+            WhickFuckingWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
+
+            var monitoringStartsAt = WhenShouldIStartMonitoringTheNextFuckingTrain(Journey, journeyLeg, today, tommorrow);
+
+            return monitoringStartsAt - TimeSpan.FromMinutes(5);
+        }
+
+        public static string[] GetCrons()
+        {
+            var crons = new HashSet<string>();
+            crons.UnionWith(Journey.Inbound.Monitor.GetCrons());
+            crons.UnionWith(Journey.Outbound.Monitor.GetCrons());
+            return crons.ToArray();
+        }
+
+        public static string[] GetOffCrons()
+        {
+            var crons = new HashSet<string>();
+            crons.UnionWith(Journey.Inbound.Monitor.GetOffCrons());
+            crons.UnionWith(Journey.Outbound.Monitor.GetOffCrons());
+            return crons.ToArray();
         }
     }
 }

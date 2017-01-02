@@ -12,31 +12,37 @@ namespace FuckingTrains
         {
             Outbound = new JourneyLeg
             {
-                Time = "7:40",
+                DepartureTime = new FuckingTime("7:40"),
                 From = "KLF",
-                To = "ILK"
-            },
-            Inbound = new JourneyLeg
-            {
-                Time="16:38",
-                From = "ILK",
-                To = "KLF"
-            }
-        };
+                To = "ILK",
 
-        public static readonly Journey TestJourney = new Journey
-        {
-            Outbound = new JourneyLeg
-            {
-                Time = "7:40",
-                From = "LDS",
-                To = "KGX"
+                Monitor = new MonitorSettings()
+                {
+                    Days = "MON-FRI",
+                    From =   new FuckingTime("6:20"),
+                    To =   new FuckingTime("7:40"),
+                    Every = 5,
+                    Off =   new FuckingTime("7:42")
+
+                }
+
             },
             Inbound = new JourneyLeg
             {
-                Time = "17:40",
-                From = "BDQ",
-                To = "LDS"
+                DepartureTime = new FuckingTime("16:38"),
+                From = "ILK",
+                To = "KLF",
+                Monitor = new MonitorSettings()
+                {
+                    Days = "MON-FRI",
+                    From = new FuckingTime("16:15"),
+                    To = new FuckingTime("16:38"),
+                    Every = 5,
+                    Off = new FuckingTime("16:40")
+
+                }
+     
+
             }
         };
     }

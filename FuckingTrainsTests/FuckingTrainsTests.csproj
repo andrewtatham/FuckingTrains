@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20F5CC6C-7511-46A5-9965-6B3774D4E189}</ProjectGuid>
+    <ProjectGuid>{C06F557A-51DF-45A6-B3AB-1199147CC47E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FuckingTrainsLights</RootNamespace>
-    <AssemblyName>FuckingTrainsLights</AssemblyName>
+    <RootNamespace>FuckingTrainsTests</RootNamespace>
+    <AssemblyName>FuckingTrainsTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,14 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlinkStickDotNet">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\BlinkStickDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="HidSharp">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\HidSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="LibUsbDotNet">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\LibUsbDotNet.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,16 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlinkstickManager.cs" />
-    <Compile Include="BlinkstickWrapper.cs" />
-    <Compile Include="ITrainStateLights.cs" />
+    <Compile Include="MonitorSettingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fuckingtrains\FuckingTrains.csproj">
       <Project>{37b16e8b-6d6b-450e-900b-ffbe176116d1}</Project>
       <Name>FuckingTrains</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,7 +15,7 @@ namespace FuckingTrainsService
             {
                 var train = Trains.IsMyFuckingTrainOnTime();
                 EventLogHelper.WriteEntry(train.ToString());
-                var blinkstick = BlinkstickWrapper.Instance();
+                var blinkstick = BlinkstickManager.Instance();
                 blinkstick.SetBlinkstickState(train);
             }
             catch (Exception ex)

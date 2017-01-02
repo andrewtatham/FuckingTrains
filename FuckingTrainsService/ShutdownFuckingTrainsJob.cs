@@ -5,7 +5,7 @@ namespace FuckingTrainsService
 {
     public class ShutdownFuckingTrainsJob : IJob
     {
-        private static readonly BlinkstickWrapper blinkstick = BlinkstickWrapper.Instance();
+        private static readonly BlinkstickManager blinkstick = BlinkstickManager.Instance();
 
         public void Execute(IJobExecutionContext context)
         {

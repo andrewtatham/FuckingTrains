@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrainsService", "Fuc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrainsLights", "FuckingTrainsLights\FuckingTrainsLights.csproj", "{20F5CC6C-7511-46A5-9965-6B3774D4E189}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuckingTrainsTests", "FuckingTrainsTests\FuckingTrainsTests.csproj", "{C06F557A-51DF-45A6-B3AB-1199147CC47E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{20F5CC6C-7511-46A5-9965-6B3774D4E189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20F5CC6C-7511-46A5-9965-6B3774D4E189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20F5CC6C-7511-46A5-9965-6B3774D4E189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06F557A-51DF-45A6-B3AB-1199147CC47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06F557A-51DF-45A6-B3AB-1199147CC47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06F557A-51DF-45A6-B3AB-1199147CC47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06F557A-51DF-45A6-B3AB-1199147CC47E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
