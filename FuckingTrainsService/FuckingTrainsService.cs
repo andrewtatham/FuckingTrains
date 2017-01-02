@@ -17,6 +17,8 @@ namespace FuckingTrainsService
         public FuckingTrainsService()
         {
             ServiceName = "FuckingTrainsService";
+            CanHandlePowerEvent = true;
+            CanShutdown = true;
             InitializeComponent();
         }
 
@@ -69,14 +71,11 @@ namespace FuckingTrainsService
 
         protected override bool OnPowerEvent(PowerBroadcastStatus powerStatus)
         {
-            EventLogHelper.WriteEntry(powerStatus.ToString());
-            switch (powerStatus)
+            if (powerStatus == PowerBroadcastStatus.Suspend)
             {
-                case PowerBroadcastStatus.Suspend:
-                    DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
-                    EventLogHelper.WriteEntry($"Waking up at {utc} utc");
-                    WakeyWakey.WakeUpAt(utc);
-                    break;
+                DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
+                EventLogHelper.WriteEntry($"Waking up at {utc} utc");
+                WakeyWakey.WakeUpAt(utc);
             }
             return base.OnPowerEvent(powerStatus);
         }
