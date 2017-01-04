@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FuckingTrains;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using TrainCommuteCheck;
 
-namespace FuckingTrainsTests
+namespace TrainCommuteCheckTests
 {
     [TestFixture]
     public class MonitorSettingsTests

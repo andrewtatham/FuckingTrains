@@ -1,11 +1,10 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Threading;
 using BlinkStickDotNet;
-using FuckingTrains;
+using TrainCommuteCheck;
 
-namespace FuckingTrainsLights
+namespace TrainCommuteCheckLights
 {
     public class BlinkstickManager : ITrainStateLights
     {
@@ -61,13 +60,13 @@ namespace FuckingTrainsLights
 
         public void TestBlinkstickTrainStates()
         {
-            foreach (var state in Enum.GetValues(typeof(FuckingTrainStates)))
+            foreach (var state in Enum.GetValues(typeof(TrainStatus)))
             {
-                var fuckingDelayInMinutes = (FuckingTrainStates)state == FuckingTrainStates.FuckingDelayed ? new Random().Next(1, 10) : (int?)null;
+                var DelayInMinutes = (TrainStatus)state == TrainStatus.Delayed ? new Random().Next(1, 10) : (int?)null;
                 var result = new TrainResult
                 {
-                    FuckingTrainState = (FuckingTrainStates)state,
-                    FuckingDelayInMinutes = fuckingDelayInMinutes
+                    TrainState = (TrainStatus)state,
+                    DelayInMinutes = DelayInMinutes
                 };
                 foreach (var blinkstick in _blinksticks)
                 {

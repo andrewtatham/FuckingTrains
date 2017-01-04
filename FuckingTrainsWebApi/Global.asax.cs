@@ -1,7 +1,8 @@
-﻿using System.Web;
+﻿
+using System.Web;
 using System.Web.Http;
 
-namespace FuckingTrainsWebApi
+namespace TrainCommuteCheckWebApi
 {
     public class WebApiApplication : HttpApplication
     {

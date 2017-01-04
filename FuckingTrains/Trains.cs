@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-using FuckingTrains.LDBService;
+using TrainCommuteCheck.LiveDepartureBoards;
 
-namespace FuckingTrains
+namespace TrainCommuteCheck
 {
     public static class Trains
     {
@@ -15,7 +15,7 @@ namespace FuckingTrains
 
         private static readonly Journey Journey = Journeys.Commute;
 
-        public static TrainResult IsMyFuckingTrainOnTime()
+        public static TrainResult IsMyTrainOnTime()
         {
             var trainResult = new TrainResult();
 
@@ -23,22 +23,22 @@ namespace FuckingTrains
             var today = DateTime.Today;
             var tommorrow = today.AddDays(1);
 
-            var journeyLeg = WhichFuckingJourneyLegAmIOn(Journey, now);
+            var journeyLeg = WhichJourneyLegAmIOn(Journey, now);
 
             string destination;
             string origin;
             string departsAt;
-            WhickFuckingWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
-            trainResult.FuckingFrom = origin;
-            trainResult.FuckingTo = destination;
-            trainResult.StandardTimeOfFuckingDeparture = departsAt;
+            WhickWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
+            trainResult.From = origin;
+            trainResult.To = destination;
+            trainResult.StandardTimeOfDeparture = departsAt;
 
-            var departureTime = WhenIsTheNextFuckingTrain(Journey, journeyLeg, today, tommorrow);
+            var departureTime = WhenIsTheNextTrain(Journey, journeyLeg, today, tommorrow);
             var offset = Convert.ToInt32(Math.Round((departureTime - DateTime.Now).TotalMinutes));
             GetDepartureBoardResponse response;
             if (offset > 120)
             {
-                trainResult.FuckingTrainState = FuckingTrainStates.YouNeedAFuckingCrystalBall;
+                trainResult.TrainState = TrainStatus.TooFarAhead;
                 return trainResult;
             }
             else
@@ -48,14 +48,14 @@ namespace FuckingTrains
 
             if (response == null)
             {
-                trainResult.FuckingTrainState = FuckingTrainStates.TheFuckingServiceIsDownOrSomething;
+                trainResult.TrainState = TrainStatus.ServiceDown;
                 return trainResult;
             }
 
             var result = response.GetStationBoardResult;
 
-            trainResult.FuckingFrom = string.Format("[{0}] {1}", result.crs, result.locationName);
-            trainResult.FuckingTo = string.Format("[{0}] {1}", result.filtercrs, result.filterLocationName);
+            trainResult.From = string.Format("[{0}] {1}", result.crs, result.locationName);
+            trainResult.To = string.Format("[{0}] {1}", result.filtercrs, result.filterLocationName);
 
             if (result.nrccMessages != null)
             {
@@ -67,11 +67,11 @@ namespace FuckingTrains
 
             if (result.areServicesAvailable && result.trainServices != null)
             {
-                trainResult.AllFuckingServices = result.trainServices.Select(train => new TrainResult(train)).ToArray();
-                var t = FindMyFuckingTrain(result.trainServices, departureTime);
+                trainResult.AllServices = result.trainServices.Select(train => new TrainResult(train)).ToArray();
+                var t = FindMyTrain(result.trainServices, departureTime);
                 if (t == null)
                 {
-                    trainResult.FuckingTrainState = FuckingTrainStates.IDontFuckingKnow;
+                    trainResult.TrainState = TrainStatus.Unknown;
                 }
                 else
                 {
@@ -80,14 +80,14 @@ namespace FuckingTrains
             }
             else
             { 
-                trainResult.FuckingTrainState = FuckingTrainStates.NoFuckingTrains;
+                trainResult.TrainState = TrainStatus.NoTrains;
             }
             return trainResult;
         }
 
-        private static TrainResult FindMyFuckingTrain(ServiceItem[] trainServices, DateTime departureTime)
+        private static TrainResult FindMyTrain(ServiceItem1[] trainServices, DateTime departureTime)
         {
-            var train = trainServices.SingleOrDefault(t => IsTheSameFuckingTime(t, departureTime));
+            var train = trainServices.SingleOrDefault(t => IsTheSameTime(t, departureTime));
             if (train != null)
             {
                 return new TrainResult(train);
@@ -95,7 +95,7 @@ namespace FuckingTrains
             return null;
         }
 
-        private static bool IsTheSameFuckingTime(ServiceItem trainService, DateTime departureTime)
+        private static bool IsTheSameTime(ServiceItem1 trainService, DateTime departureTime)
         {
             var timeComponents = trainService.std.Split(':').Select(s =>Convert.ToInt32(s)).ToArray();
             var hour = timeComponents[0];
@@ -151,7 +151,7 @@ namespace FuckingTrains
             }
         }
 
-        private static void WhickFuckingWayAmIGoing(Journey journey, JourneyType journeyType, out string origin, out string destination, out string departsAt)
+        private static void WhickWayAmIGoing(Journey journey, JourneyType journeyType, out string origin, out string destination, out string departsAt)
         {
             switch (journeyType)
             {
@@ -171,7 +171,7 @@ namespace FuckingTrains
             }
         }
 
-        private static DateTime WhenIsTheNextFuckingTrain(Journey journey, JourneyType journeyType, DateTime today,
+        private static DateTime WhenIsTheNextTrain(Journey journey, JourneyType journeyType, DateTime today,
             DateTime tommorrow)
         {
             DateTime departureTime;
@@ -196,7 +196,7 @@ namespace FuckingTrains
             return departureTime;
         }
 
-        private static DateTime WhenShouldIStartMonitoringTheNextFuckingTrain(Journey journey, JourneyType journeyType, DateTime today,
+        private static DateTime WhenShouldIStartMonitoringTheNextTrain(Journey journey, JourneyType journeyType, DateTime today,
     DateTime tommorrow)
         {
             DateTime departureTime;
@@ -222,7 +222,7 @@ namespace FuckingTrains
         }
 
 
-        private static JourneyType WhichFuckingJourneyLegAmIOn(Journey journey, DateTime now)
+        private static JourneyType WhichJourneyLegAmIOn(Journey journey, DateTime now)
         {
             JourneyType journeyType;
             if (now.Hour <= journey.Outbound.DepartureTime.H + 1)
@@ -245,16 +245,22 @@ namespace FuckingTrains
             var now = DateTime.Now;
             var today = DateTime.Today;
             var tommorrow = today.AddDays(1);
-            var journeyLeg = WhichFuckingJourneyLegAmIOn(Journey, now);
+            var journeyLeg = WhichJourneyLegAmIOn(Journey, now);
 
             string destination;
             string origin;
             string departsAt;
-            WhickFuckingWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
+            WhickWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
 
-            var monitoringStartsAt = WhenShouldIStartMonitoringTheNextFuckingTrain(Journey, journeyLeg, today, tommorrow);
-
-            return monitoringStartsAt - TimeSpan.FromMinutes(5);
+            var monitoringStartsAt = WhenShouldIStartMonitoringTheNextTrain(Journey, journeyLeg, today, tommorrow) - TimeSpan.FromMinutes(5);
+            if (monitoringStartsAt >= now)
+            {
+                return monitoringStartsAt;
+            }
+            else
+            {
+                return now;
+            }
         }
 
         public static string[] GetCrons()

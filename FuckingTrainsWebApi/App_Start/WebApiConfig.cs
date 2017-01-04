@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace FuckingTrainsWebApi
+namespace TrainCommuteCheckWebApi
 {
     public static class WebApiConfig
     {

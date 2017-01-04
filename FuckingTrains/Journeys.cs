@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FuckingTrains
+﻿namespace TrainCommuteCheck
 {
     public static class Journeys
     {
@@ -12,33 +6,33 @@ namespace FuckingTrains
         {
             Outbound = new JourneyLeg
             {
-                DepartureTime = new FuckingTime("7:40"),
+                DepartureTime = new TimeParser("7:40"),
                 From = "KLF",
                 To = "ILK",
 
                 Monitor = new MonitorSettings()
                 {
                     Days = "MON-FRI",
-                    From =   new FuckingTime("6:20"),
-                    To =   new FuckingTime("7:40"),
+                    From =   new TimeParser("6:20"),
+                    To =   new TimeParser("7:40"),
                     Every = 5,
-                    Off =   new FuckingTime("7:42")
+                    Off =   new TimeParser("7:42")
 
                 }
 
             },
             Inbound = new JourneyLeg
             {
-                DepartureTime = new FuckingTime("16:38"),
+                DepartureTime = new TimeParser("16:38"),
                 From = "ILK",
                 To = "KLF",
                 Monitor = new MonitorSettings()
                 {
                     Days = "MON-FRI",
-                    From = new FuckingTime("16:15"),
-                    To = new FuckingTime("16:38"),
+                    From = new TimeParser("16:15"),
+                    To = new TimeParser("16:38"),
                     Every = 5,
-                    Off = new FuckingTime("16:40")
+                    Off = new TimeParser("16:40")
 
                 }
      

@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace FuckingTrainsService
+namespace TrainCommuteCheckService
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace FuckingTrainsService
         {
             ServiceBase.Run(new ServiceBase[]
             {
-                new FuckingTrainsService()
+                new TrainCheckService()
             });
         }
     }

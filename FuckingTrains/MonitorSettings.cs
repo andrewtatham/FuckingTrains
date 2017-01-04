@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
-namespace FuckingTrains
+namespace TrainCommuteCheck
 {
     public class MonitorSettings
     {
         public string Days { get; set; }
-        public FuckingTime From { get; set; }
-        public FuckingTime To { get; set; }
+        public TimeParser From { get; set; }
+        public TimeParser To { get; set; }
         public int Every { get; set; }
-        public FuckingTime Off { get; set; }
+        public TimeParser Off { get; set; }
 
         public string[] GetCrons()
         {

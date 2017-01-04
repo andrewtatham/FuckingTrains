@@ -1,4 +1,4 @@
-namespace FuckingTrains
+namespace TrainCommuteCheck
 {
     internal enum JourneyType
     {

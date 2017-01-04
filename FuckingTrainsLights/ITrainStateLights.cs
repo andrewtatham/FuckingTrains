@@ -1,6 +1,6 @@
-﻿using FuckingTrains;
+﻿using TrainCommuteCheck;
 
-namespace FuckingTrainsLights
+namespace TrainCommuteCheckLights
 {
     public interface ITrainStateLights
     {

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using BlinkStickDotNet;
-using FuckingTrains;
+using TrainCommuteCheck;
 
-namespace FuckingTrainsLights
+namespace TrainCommuteCheckLights
 {
     class BlinkstickWrapper : ITrainStateLights
     {
@@ -27,7 +23,7 @@ namespace FuckingTrainsLights
 
         private readonly BlinkStick _blinkstick;
 
-        private static FuckingTrainStates? previousFuckingTrainState;
+        private static TrainStatus? _previousTrainStatu;
        
 
         public BlinkstickWrapper(BlinkStick blinkstick, int n)
@@ -78,7 +74,7 @@ namespace FuckingTrainsLights
         public void BlinkstickOff()
         {
             All(OffColour);
-            previousFuckingTrainState = null;
+            _previousTrainStatu = null;
             Thread.Sleep(100);
         }
 
@@ -91,39 +87,39 @@ namespace FuckingTrainsLights
 
         public void SetBlinkstickState(TrainResult train)
         {
-            if (!previousFuckingTrainState.HasValue || previousFuckingTrainState != train.FuckingTrainState)
+            if (!_previousTrainStatu.HasValue || _previousTrainStatu != train.TrainState)
             {
                 Blink(StateChangedColour);
             }
 
-            previousFuckingTrainState = train.FuckingTrainState;
+            _previousTrainStatu = train.TrainState;
 
-            switch (train.FuckingTrainState)
+            switch (train.TrainState)
             {
-                case FuckingTrainStates.IDontFuckingKnow:
+                case TrainStatus.Unknown:
                     All(DontKnowColour);
                     break;
-                case FuckingTrainStates.OnFuckingTimeApparently:
+                case TrainStatus.OnTime:
                     All(OnTimeColour);
                     break;
-                case FuckingTrainStates.FuckingDelayed:
-                    int? delayInMinutes = train.FuckingDelayInMinutes;
+                case TrainStatus.Delayed:
+                    int? delayInMinutes = train.DelayInMinutes;
                     if (delayInMinutes.HasValue)
                     {
                         Blink(DelayedColour, delayInMinutes.Value);
                     }
                     All(DelayedColour);
                     break;
-                case FuckingTrainStates.FuckingCancelled:
+                case TrainStatus.Cancelled:
                     All(CancelledColour);
                     break;
-                case FuckingTrainStates.YouNeedAFuckingCrystalBall:
+                case TrainStatus.TooFarAhead:
                     All(CrystallBallColour);
                     break;
-                case FuckingTrainStates.TheFuckingServiceIsDownOrSomething:
+                case TrainStatus.ServiceDown:
                     All(ServiceDown);
                     break;
-                case FuckingTrainStates.NoFuckingTrains:
+                case TrainStatus.NoTrains:
                     All(NoTrainsColour);
                     break;
                 default:

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37B16E8B-6D6B-450E-900B-FFBE176116D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TrainCommuteCheck</RootNamespace>
+    <AssemblyName>TrainCommuteCheck</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Service References\LiveDepartureBoards\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="TimeParser.cs" />
+    <Compile Include="TrainStatus.cs" />
+    <Compile Include="Journeys.cs" />
+    <Compile Include="MonitorSettings.cs" />
+    <Compile Include="TrainResult.cs" />
+    <Compile Include="Trains.cs" />
+    <Compile Include="Journey.cs" />
+    <Compile Include="JourneyLeg.cs" />
+    <Compile Include="JourneyType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Service References\LiveDepartureBoards\darwin_token_types_2013-11-28.wsdl" />
+    <None Include="Service References\LiveDepartureBoards\darwin_token_types_2013-11-28.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\RTTI_2007-10-10_ldb_common_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\RTTI_2012-01-13_ldb_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\RTTI_2015-11-27_ldb_common_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\RTTI_2015-11-27_ldb_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\rtti_2016-02-16_ldb.wsdl" />
+    <None Include="Service References\LiveDepartureBoards\RTTI_2016-02-16_ldb_common_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\RTTI_2016-02-16_ldb_types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.DeparturesBoard1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.DeparturesBoardWithDetails1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetArrBoardWithDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetArrDepBoardWithDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetArrivalBoardResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetArrivalDepartureBoardResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetDepartureBoardResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetDepBoardWithDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetFastestDeparturesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetFastestDeparturesWithDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetNextDeparturesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetNextDeparturesWithDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.GetServiceDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.ServiceDetails1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.StationBoard1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\TrainCommuteCheck.LiveDepartureBoards.StationBoardWithDetails1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\LiveDepartureBoards\wsdl.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\LiveDepartureBoards\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LiveDepartureBoards\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LiveDepartureBoards\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\LiveDepartureBoards\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

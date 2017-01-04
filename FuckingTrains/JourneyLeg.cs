@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace FuckingTrains
+﻿namespace TrainCommuteCheck
 {
     public class JourneyLeg
     {
@@ -8,7 +6,7 @@ namespace FuckingTrains
         public string From { get; set; }
         public string To { get; set; }
 
-        public FuckingTime DepartureTime { get; set; }
+        public TimeParser DepartureTime { get; set; }
 
         public MonitorSettings Monitor { get; set; }
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
-using FuckingTrains;
-using FuckingTrainsLights;
+using TrainCommuteCheck;
+using TrainCommuteCheckLights;
 
-namespace FuckingTrainsConsoleService
+namespace TrainCommuteCheckConsole
 {
     internal class Program
     {
@@ -13,7 +13,7 @@ namespace FuckingTrainsConsoleService
             try
             {
                 blinkstick.Hello();
-                var train = Trains.IsMyFuckingTrainOnTime();
+                var train = Trains.IsMyTrainOnTime();
                 Console.WriteLine(train.ToString());
                 blinkstick.SetBlinkstickState(train);
                 Thread.Sleep(5000);

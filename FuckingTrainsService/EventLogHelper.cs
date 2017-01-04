@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FuckingTrainsService
+namespace TrainCommuteCheckService
 {
     internal class EventLogHelper
     {
@@ -9,13 +9,13 @@ namespace FuckingTrainsService
 
         static EventLogHelper()
         {
-            if (!EventLog.SourceExists("FuckingTrains"))
+            if (!EventLog.SourceExists("Trains"))
             {
                 EventLog.CreateEventSource(
-                    "FuckingTrains", "FuckingTrainsLog");
+                    "Trains", "TrainsLog");
             }
-            _eventLog.Source = "FuckingTrains";
-            _eventLog.Log = "FuckingTrainsLog";
+            _eventLog.Source = "Trains";
+            _eventLog.Log = "TrainsLog";
         }
 
         internal void WriteEntry(string message)

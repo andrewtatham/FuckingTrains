@@ -2,33 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FuckingTrains.LDBService;
+using TrainCommuteCheck.LiveDepartureBoards;
 
-namespace FuckingTrains
+namespace TrainCommuteCheck
 {
     public class TrainResult
     {
-        private FuckingTrainStates _fuckingTrainState;
+        private TrainStatus _trainState;
 
         public TrainResult()
         {
         }
 
-        public TrainResult(ServiceItem train)
+        public TrainResult(ServiceItem1 train)
         {
-  
+            StandardTimeOfDeparture = train.std;
+            EstimatedTimeOfDeparture = train.etd;
+            From = string.Join(" ", train.origin?.Select(o => o.locationName));
+            To = string.Join(" ", train.destination?.Select(d => d.locationName));
+            Platform = train.platform;
+            ServiceProvider = train.@operator;
+            CancellationReason = train.cancelReason;
+            DelayReason = train.delayReason;
 
-            StandardTimeOfFuckingDeparture = train.std;
-            EstimatedTimeOfFuckingDeparture = train.etd;
-            FuckingFrom = string.Join(" ", train.origin?.Select(o => o.locationName));
-            FuckingTo = string.Join(" ", train.destination?.Select(d => d.locationName));
-            FuckingPlatform = train.platform;
-            ShowerOfBastards = train.@operator;
-            FuckingCancellationReason = train.cancelReason;
-            FuckingDelayReason = train.delayReason;
-
-            var isFuckingCancelled = train.isCancelled;
-            var isFuckingDelayed = !train.isCancelled && (
+            var isCancelled = train.isCancelled;
+            var isDelayed = !train.isCancelled && (
                 train.etd.ToUpperInvariant() != "ON TIME"
                 || !string.IsNullOrWhiteSpace(train.delayReason)
                 );
@@ -38,110 +36,110 @@ namespace FuckingTrains
 
             if (isOnTime)
             {
-                FuckingTrainState = FuckingTrainStates.OnFuckingTimeApparently;
+                TrainState = TrainStatus.OnTime;
             }
-            else if (isFuckingDelayed)
+            else if (isDelayed)
             {
-                FuckingTrainState = FuckingTrainStates.FuckingDelayed;
+                TrainState = TrainStatus.Delayed;
             }
-            else if (isFuckingCancelled)
+            else if (isCancelled)
             {
-                FuckingTrainState = FuckingTrainStates.FuckingCancelled;
+                TrainState = TrainStatus.Cancelled;
             }
             else
             {
-                FuckingTrainState = FuckingTrainStates.IDontFuckingKnow;
+                TrainState = TrainStatus.Unknown;
             }
         }
 
-        public FuckingTrainStates FuckingTrainState
+        public TrainStatus TrainState
         {
-            get { return _fuckingTrainState; }
+            get { return _trainState; }
             set
             {
-                _fuckingTrainState = value;
-                FuckingTrainStateDescription = _fuckingTrainState.ToString();
+                _trainState = value;
+                TrainStateDescription = _trainState.ToString();
             }
         }
-        public string FuckingTrainStateDescription { get; private set; }
+        public string TrainStateDescription { get; private set; }
 
-        public string FuckingPlatform { get; }
+        public string Platform { get; }
 
-        public string ShowerOfBastards { get; }
+        public string ServiceProvider { get; }
 
-        public string FuckingDelayReason { get; }
+        public string DelayReason { get; }
 
-        public string FuckingCancellationReason { get; }
+        public string CancellationReason { get; }
 
-        public string StandardTimeOfFuckingDeparture { get; set; }
-        public string EstimatedTimeOfFuckingDeparture { get; }
+        public string StandardTimeOfDeparture { get; set; }
+        public string EstimatedTimeOfDeparture { get; }
 
-        public string FuckingFrom { get; set; }
-        public string FuckingTo { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
         public List<string> Messages { get; private set; } = new List<string>();
-        public int? FuckingDelayInMinutes { get; set; }
-        public TrainResult[] AllFuckingServices { get; set; }
+        public int? DelayInMinutes { get; set; }
+        public TrainResult[] AllServices { get; set; }
 
 
         private static string FormatTrain(TrainResult train)
         {
             var sb = new StringBuilder();
 
-            if (!string.IsNullOrEmpty(train.StandardTimeOfFuckingDeparture)
-                && !string.IsNullOrEmpty(train.FuckingFrom) 
-                && !string.IsNullOrEmpty(train.FuckingTo))
+            if (!string.IsNullOrEmpty(train.StandardTimeOfDeparture)
+                && !string.IsNullOrEmpty(train.From) 
+                && !string.IsNullOrEmpty(train.To))
             {
-                sb.AppendFormat("The {0} from {1} to {2} is ", train.StandardTimeOfFuckingDeparture, train.FuckingFrom, train.FuckingTo);
+                sb.AppendFormat("The {0} from {1} to {2} is ", train.StandardTimeOfDeparture, train.From, train.To);
             }
 
 
-            switch (train.FuckingTrainState)
+            switch (train.TrainState)
             {
-                case FuckingTrainStates.OnFuckingTimeApparently:
-                    sb.Append("ON FUCKING TIME APPARENTLY");
+                case TrainStatus.OnTime:
+                    sb.Append("ON TIME");
                     break;
-                case FuckingTrainStates.FuckingDelayed:
-                    sb.AppendFormat("FUCKING DELAYED {0}", train.EstimatedTimeOfFuckingDeparture);
-                    if (!string.IsNullOrWhiteSpace(train.FuckingDelayReason))
+                case TrainStatus.Delayed:
+                    sb.AppendFormat("DELAYED {0}", train.EstimatedTimeOfDeparture);
+                    if (!string.IsNullOrWhiteSpace(train.DelayReason))
                     {
-                        sb.AppendFormat(" DUE TO {0}", train.FuckingDelayReason);
+                        sb.AppendFormat(" DUE TO {0}", train.DelayReason);
                     }
                     break;
-                case FuckingTrainStates.FuckingCancelled:
-                    sb.Append("FUCKING CANCELLED");
-                    if (!string.IsNullOrWhiteSpace(train.FuckingCancellationReason))
+                case TrainStatus.Cancelled:
+                    sb.Append("CANCELLED");
+                    if (!string.IsNullOrWhiteSpace(train.CancellationReason))
                     {
-                        sb.AppendFormat(" DUE TO {0}", train.FuckingCancellationReason);
+                        sb.AppendFormat(" DUE TO {0}", train.CancellationReason);
                     }
                     break;
-                case FuckingTrainStates.YouNeedAFuckingCrystalBall:
-                    sb.Append("YOU NEED A FUCKING CRYSTAL BALL");
+                case TrainStatus.TooFarAhead:
+                    sb.Append("YOU NEED A  CRYSTAL BALL");
                     break;
-                case FuckingTrainStates.TheFuckingServiceIsDownOrSomething:
-                    sb.Append("THE FUCKING SERVICE IS DOWN OR SOMETHING");
+                case TrainStatus.ServiceDown:
+                    sb.Append("THE SERVICE IS DOWN OR SOMETHING");
                     break;
-                case FuckingTrainStates.NoFuckingTrains:
-                    sb.Append("NO FUCKING TRAINS");
+                case TrainStatus.NoTrains:
+                    sb.Append("NO TRAINS");
                     break;
-                case FuckingTrainStates.IDontFuckingKnow:
-                    sb.Append("I DONT FUCKING KNOW");
+                case TrainStatus.Unknown:
+                    sb.Append("I DONT KNOW");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(train.FuckingTrainState.ToString());
+                    throw new ArgumentOutOfRangeException(train.TrainState.ToString());
             }
 
-            if (!string.IsNullOrEmpty(train.FuckingPlatform))
+            if (!string.IsNullOrEmpty(train.Platform))
             {
-                sb.AppendFormat(" from fucking platform: {0}", train.FuckingPlatform);
+                sb.AppendFormat(" from platform: {0}", train.Platform);
             }
-            if (!string.IsNullOrEmpty(train.ShowerOfBastards))
+            if (!string.IsNullOrEmpty(train.ServiceProvider))
             {
-                sb.AppendFormat(" (shower of bastards: {0})", train.ShowerOfBastards).AppendLine();
+                sb.AppendFormat(" ({0})", train.ServiceProvider).AppendLine();
             }
 
-            if (train.AllFuckingServices!=null)
+            if (train.AllServices!=null)
             {
-                foreach (var service in train.AllFuckingServices)
+                foreach (var service in train.AllServices)
                 {
                     sb.AppendLine(FormatTrain(service));
                 }
