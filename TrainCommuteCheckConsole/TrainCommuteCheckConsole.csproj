@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20F5CC6C-7511-46A5-9965-6B3774D4E189}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{946DE71E-5066-434C-8C8F-EDD10DF589F3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrainCommuteCheckLights</RootNamespace>
-    <AssemblyName>TrainCommuteCheckLights</AssemblyName>
+    <RootNamespace>TrainCommuteCheckConsole</RootNamespace>
+    <AssemblyName>TrainCommuteCheckConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,14 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlinkStickDotNet">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\BlinkStickDotNet.dll</HintPath>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="HidSharp">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\HidSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="LibUsbDotNet">
-      <HintPath>..\BlinkStickDotNet\BlinkStickDotNet\bin\Debug\LibUsbDotNet.dll</HintPath>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,13 +51,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlinkstickManager.cs" />
-    <Compile Include="BlinkstickWrapper.cs" />
-    <Compile Include="ITrainStateLights.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fuckingtrains\TrainCommuteCheck.csproj">
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrainCommuteCheckLights\TrainCommuteCheckLights.csproj">
+      <Project>{20f5cc6c-7511-46a5-9965-6b3774d4e189}</Project>
+      <Name>TrainCommuteCheckLights</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrainCommuteCheck\TrainCommuteCheck.csproj">
       <Project>{37b16e8b-6d6b-450e-900b-ffbe176116d1}</Project>
       <Name>TrainCommuteCheck</Name>
     </ProjectReference>

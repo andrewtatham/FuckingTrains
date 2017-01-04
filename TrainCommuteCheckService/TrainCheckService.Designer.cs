@@ -1,6 +1,6 @@
 ﻿namespace TrainCommuteCheckService
 {
-    partial class TrainCheckService
+    partial class TrainCommuteCheckService
     {
         /// <summary> 
         /// Required designer variable.

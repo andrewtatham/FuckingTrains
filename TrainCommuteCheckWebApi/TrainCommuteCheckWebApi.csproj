@@ -129,7 +129,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fuckingtrains\TrainCommuteCheck.csproj">
+    <ProjectReference Include="..\TrainCommuteCheck\TrainCommuteCheck.csproj">
       <Project>{37B16E8B-6D6B-450E-900B-FFBE176116D1}</Project>
       <Name>TrainCommuteCheck</Name>
     </ProjectReference>

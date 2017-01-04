@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheck", "Fuckingtrains\TrainCommuteCheck.csproj", "{37B16E8B-6D6B-450E-900B-FFBE176116D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheck", "TrainCommuteCheck\TrainCommuteCheck.csproj", "{37B16E8B-6D6B-450E-900B-FFBE176116D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckWebApi", "FuckingTrainsWebApi\TrainCommuteCheckWebApi.csproj", "{C688DF60-C13E-40C6-9824-E81DC8692874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckWebApi", "TrainCommuteCheckWebApi\TrainCommuteCheckWebApi.csproj", "{C688DF60-C13E-40C6-9824-E81DC8692874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckConsole", "FuckingTrainsConsoleService\TrainCommuteCheckConsole.csproj", "{946DE71E-5066-434C-8C8F-EDD10DF589F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckConsole", "TrainCommuteCheckConsole\TrainCommuteCheckConsole.csproj", "{946DE71E-5066-434C-8C8F-EDD10DF589F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckService", "FuckingTrainsService\TrainCommuteCheckService.csproj", "{D8CE26FD-57D7-4FEC-B993-5D87EB0B68D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckService", "TrainCommuteCheckService\TrainCommuteCheckService.csproj", "{D8CE26FD-57D7-4FEC-B993-5D87EB0B68D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckLights", "FuckingTrainsLights\TrainCommuteCheckLights.csproj", "{20F5CC6C-7511-46A5-9965-6B3774D4E189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckLights", "TrainCommuteCheckLights\TrainCommuteCheckLights.csproj", "{20F5CC6C-7511-46A5-9965-6B3774D4E189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckTests", "FuckingTrainsTests\TrainCommuteCheckTests.csproj", "{C06F557A-51DF-45A6-B3AB-1199147CC47E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainCommuteCheckTests", "TrainCommuteCheckTests\TrainCommuteCheckTests.csproj", "{C06F557A-51DF-45A6-B3AB-1199147CC47E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,14 +9,14 @@ using TrainCommuteCheckLights;
 
 namespace TrainCommuteCheckService
 {
-    public partial class TrainCheckService : ServiceBase
+    public partial class TrainCommuteCheckService : ServiceBase
     {
         private static readonly BlinkstickManager Blinksticks = BlinkstickManager.Instance();
         private static readonly EventLogHelper EventLogHelper = new EventLogHelper();
 
-        public TrainCheckService()
+        public TrainCommuteCheckService()
         {
-            ServiceName = "TrainCheckService";
+            ServiceName = "TrainCommuteCheckService";
             CanHandlePowerEvent = true;
             CanShutdown = true;
             InitializeComponent();

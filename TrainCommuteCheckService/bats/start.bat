@@ -1,0 +1,3 @@
+sc start TrainCommuteCheckService
+timeout 2
+sc query TrainCommuteCheckService

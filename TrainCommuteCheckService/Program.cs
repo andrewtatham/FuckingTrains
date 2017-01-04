@@ -11,7 +11,7 @@ namespace TrainCommuteCheckService
         {
             ServiceBase.Run(new ServiceBase[]
             {
-                new TrainCheckService()
+                new TrainCommuteCheckService()
             });
         }
     }
