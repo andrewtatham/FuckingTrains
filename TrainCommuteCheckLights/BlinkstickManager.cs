@@ -8,11 +8,10 @@ namespace TrainCommuteCheckLights
 {
     public class BlinkstickManager : ITrainStateLights
     {
-
         private static readonly BlinkstickManager _instance = new BlinkstickManager();
         private readonly BlinkstickWrapper _blinkstickNano;
         private readonly BlinkstickWrapper _blinkstickFlex;
-        private readonly List<BlinkstickWrapper> _blinksticks; 
+        private readonly List<BlinkstickWrapper> _blinksticks;
 
         public static BlinkstickManager Instance()
         {
@@ -24,7 +23,6 @@ namespace TrainCommuteCheckLights
             _blinksticks = new List<BlinkstickWrapper>();
             _blinkstickNano = TryCreateBlinkstick("BS003518-3.0", 2);
             _blinkstickFlex = TryCreateBlinkstick("BS006639-3.1", 32);
-
         }
 
         private BlinkstickWrapper TryCreateBlinkstick(string serial, int n)
@@ -32,11 +30,10 @@ namespace TrainCommuteCheckLights
             var blinkstick = BlinkStick.FindBySerial(serial);
             if (blinkstick != null)
             {
-                blinkstick.SetLedCount((byte)n);
+                blinkstick.SetLedCount((byte) n);
                 BlinkstickWrapper wrapper = new BlinkstickWrapper(blinkstick, n);
                 _blinksticks.Add(wrapper);
                 return wrapper;
-
             }
             return null;
         }
@@ -60,12 +57,12 @@ namespace TrainCommuteCheckLights
 
         public void TestBlinkstickTrainStates()
         {
-            foreach (var state in Enum.GetValues(typeof(TrainStatus)))
+            foreach (var state in Enum.GetValues(typeof (TrainStatus)))
             {
-                var DelayInMinutes = (TrainStatus)state == TrainStatus.Delayed ? new Random().Next(1, 10) : (int?)null;
+                var DelayInMinutes = (TrainStatus) state == TrainStatus.Delayed ? new Random().Next(1, 10) : (int?) null;
                 var result = new TrainResult
                 {
-                    TrainState = (TrainStatus)state,
+                    TrainState = (TrainStatus) state,
                     DelayInMinutes = DelayInMinutes
                 };
                 foreach (var blinkstick in _blinksticks)
@@ -75,8 +72,6 @@ namespace TrainCommuteCheckLights
 
                 Thread.Sleep(500);
             }
-
-
         }
 
         public void SetBlinkstickState(TrainResult train)
@@ -86,11 +81,5 @@ namespace TrainCommuteCheckLights
                 blinkstick.SetBlinkstickState(train);
             }
         }
-
-
-
-
-
-
     }
 }

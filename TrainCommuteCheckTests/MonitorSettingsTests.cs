@@ -28,6 +28,7 @@ namespace TrainCommuteCheckTests
             };
             CollectionAssert.AreEquivalent(expected, actual);
         }
+
         [Test]
         public void Monitor_Commute_Inbound_GetCrons()
         {

@@ -8,7 +8,7 @@ namespace TrainCommuteCheckLights
     class BlinkstickWrapper : ITrainStateLights
     {
         private readonly int _n;
-        
+
         private const string StateChangedColour = "#101010";
         private const string OffColour = "#000000";
 
@@ -24,7 +24,7 @@ namespace TrainCommuteCheckLights
         private readonly BlinkStick _blinkstick;
 
         private static TrainStatus? _previousTrainStatu;
-       
+
 
         public BlinkstickWrapper(BlinkStick blinkstick, int n)
         {
@@ -51,6 +51,7 @@ namespace TrainCommuteCheckLights
                 throw new Exception("BlinkStick not found");
             }
         }
+
         private void Blink(string hexColour, int n = 1, int durationMilliseconds = 100)
         {
             for (var i = 0; i < n; i++)
@@ -82,7 +83,6 @@ namespace TrainCommuteCheckLights
         {
             Blink("#080808");
         }
-
 
 
         public void SetBlinkstickState(TrainResult train)
@@ -126,7 +126,5 @@ namespace TrainCommuteCheckLights
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-
     }
 }

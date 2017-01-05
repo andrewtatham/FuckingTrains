@@ -35,10 +35,8 @@ namespace TrainCommuteCheck
                     {
                         crons.Add($"0 0/{Every} {h} ? * {Days}");
                     }
-
                 }
                 return crons.ToArray();
-
             }
         }
 

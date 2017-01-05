@@ -61,6 +61,7 @@ namespace TrainCommuteCheck
                 TrainStateDescription = _trainState.ToString();
             }
         }
+
         public string TrainStateDescription { get; private set; }
 
         public string Platform { get; }
@@ -86,7 +87,7 @@ namespace TrainCommuteCheck
             var sb = new StringBuilder();
 
             if (!string.IsNullOrEmpty(train.StandardTimeOfDeparture)
-                && !string.IsNullOrEmpty(train.From) 
+                && !string.IsNullOrEmpty(train.From)
                 && !string.IsNullOrEmpty(train.To))
             {
                 sb.AppendFormat("The {0} from {1} to {2} is ", train.StandardTimeOfDeparture, train.From, train.To);
@@ -137,7 +138,7 @@ namespace TrainCommuteCheck
                 sb.AppendFormat(" ({0})", train.ServiceProvider).AppendLine();
             }
 
-            if (train.AllServices!=null)
+            if (train.AllServices != null)
             {
                 foreach (var service in train.AllServices)
                 {

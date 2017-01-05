@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" id="RTTI_2016-02-16_ldb_common_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:tns="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" attributeFormDefault="unqualified"
+           elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes"
+           id="RTTI_2016-02-16_ldb_common_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:simpleType name="RSIDType">
     <xs:annotation>
       <xs:documentation>A Retail Service Identifier</xs:documentation>

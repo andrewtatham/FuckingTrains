@@ -79,7 +79,7 @@ namespace TrainCommuteCheck
                 }
             }
             else
-            { 
+            {
                 trainResult.TrainState = TrainStatus.NoTrains;
             }
             return trainResult;
@@ -97,7 +97,7 @@ namespace TrainCommuteCheck
 
         private static bool IsTheSameTime(ServiceItem1 trainService, DateTime departureTime)
         {
-            var timeComponents = trainService.std.Split(':').Select(s =>Convert.ToInt32(s)).ToArray();
+            var timeComponents = trainService.std.Split(':').Select(s => Convert.ToInt32(s)).ToArray();
             var hour = timeComponents[0];
             var minute = timeComponents[1];
             return hour == departureTime.Hour && minute == departureTime.Minute;
@@ -151,7 +151,8 @@ namespace TrainCommuteCheck
             }
         }
 
-        private static void WhickWayAmIGoing(Journey journey, JourneyType journeyType, out string origin, out string destination, out string departsAt)
+        private static void WhickWayAmIGoing(Journey journey, JourneyType journeyType, out string origin,
+            out string destination, out string departsAt)
         {
             switch (journeyType)
             {
@@ -196,8 +197,9 @@ namespace TrainCommuteCheck
             return departureTime;
         }
 
-        private static DateTime WhenShouldIStartMonitoringTheNextTrain(Journey journey, JourneyType journeyType, DateTime today,
-    DateTime tommorrow)
+        private static DateTime WhenShouldIStartMonitoringTheNextTrain(Journey journey, JourneyType journeyType,
+            DateTime today,
+            DateTime tommorrow)
         {
             DateTime departureTime;
 
@@ -252,7 +254,8 @@ namespace TrainCommuteCheck
             string departsAt;
             WhickWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
 
-            var monitoringStartsAt = WhenShouldIStartMonitoringTheNextTrain(Journey, journeyLeg, today, tommorrow) - TimeSpan.FromMinutes(5);
+            var monitoringStartsAt = WhenShouldIStartMonitoringTheNextTrain(Journey, journeyLeg, today, tommorrow) -
+                                     TimeSpan.FromMinutes(5);
             if (monitoringStartsAt >= now)
             {
                 return monitoringStartsAt;

@@ -20,7 +20,5 @@ namespace TrainCommuteCheck
         public int H => _h;
         public int M => _m;
         public string Time => _time;
-
-
     }
 }

@@ -1,8 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:ldbt2015="http://thalesgroup.com/RTTI/2015-11-27/ldb/types" xmlns:tns="http://thalesgroup.com/RTTI/2016-02-16/ldb/types" xmlns:ct2016="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" xmlns:ct2007="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/types" id="RTTI_2016-02-16_ldb_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="rtti_2007-10-10_ldb_common_types.xsd" namespace="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" />
-  <xs:import schemaLocation="rtti_2016-02-16_ldb_common_types.xsd" namespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" />
-  <xs:import schemaLocation="rtti_2015-11-27_ldb_types.xsd" namespace="http://thalesgroup.com/RTTI/2015-11-27/ldb/types" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:ldbt2015="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+           xmlns:tns="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+           xmlns:ct2016="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes"
+           xmlns:ct2007="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" attributeFormDefault="unqualified"
+           elementFormDefault="qualified" targetNamespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+           id="RTTI_2016-02-16_ldb_types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="rtti_2007-10-10_ldb_common_types.xsd"
+             namespace="http://thalesgroup.com/RTTI/2007-10-10/ldb/commontypes" />
+  <xs:import schemaLocation="rtti_2016-02-16_ldb_common_types.xsd"
+             namespace="http://thalesgroup.com/RTTI/2016-02-16/ldb/commontypes" />
+  <xs:import schemaLocation="rtti_2015-11-27_ldb_types.xsd"
+             namespace="http://thalesgroup.com/RTTI/2015-11-27/ldb/types" />
   <xs:complexType name="StationBoard">
     <xs:annotation>
       <xs:documentation>A structure containing details of a basic departure board for a specific location.</xs:documentation>
@@ -116,7 +125,8 @@
       <xs:documentation>A list of services on a departure board with details of their calling points.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="service" nillable="true" type="tns:ServiceItemWithCallingPoints" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="service" nillable="true"
+                  type="tns:ServiceItemWithCallingPoints" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ArrayOfDepartureItems">
