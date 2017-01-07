@@ -65,24 +65,37 @@ namespace TrainCommuteCheckService
             catch (Exception ex)
             {
                 EventLogHelper.WriteException(ex);
-                throw;
             }
         }
 
         protected override bool OnPowerEvent(PowerBroadcastStatus powerStatus)
         {
-            if (powerStatus == PowerBroadcastStatus.Suspend)
+            try
             {
-                DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
-                EventLogHelper.WriteEntry($"Waking up at {utc} utc");
-                WakeyWakey.WakeUpAt(utc);
+                if (powerStatus == PowerBroadcastStatus.Suspend)
+                {
+                    DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
+                    EventLogHelper.WriteEntry($"Waking up at {utc} utc");
+                    WakeyWakey.WakeUpAt(utc);
+                }             
+            }
+            catch (Exception ex)
+            {
+                EventLogHelper.WriteException(ex);
             }
             return base.OnPowerEvent(powerStatus);
         }
 
         protected override void OnShutdown()
         {
-            Blinksticks.BlinkstickOff();
+            try
+            {
+                Blinksticks.BlinkstickOff();
+            }
+            catch (Exception ex)
+            {
+                EventLogHelper.WriteException(ex);
+            }
             base.OnShutdown();
         }
     }
