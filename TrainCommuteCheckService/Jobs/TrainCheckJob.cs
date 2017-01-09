@@ -25,4 +25,22 @@ namespace TrainCommuteCheckService
             }
         }
     }
+    public class NotifyJob : IJob
+    {
+        private static readonly EventLogHelper EventLogHelper = new EventLogHelper();
+
+        public void Execute(IJobExecutionContext context)
+        {
+            try
+            {
+                var blinkstick = BlinkstickManager.Instance();
+                blinkstick.Notify();
+            }
+            catch (Exception ex)
+            {
+                EventLogHelper.WriteException(ex);
+                throw;
+            }
+        }
+    }
 }

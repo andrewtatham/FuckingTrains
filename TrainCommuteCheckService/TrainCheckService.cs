@@ -40,6 +40,7 @@ namespace TrainCommuteCheckService
 
                 Schedule<TrainCheckJob>(scheduler, Trains.GetCrons());
                 Schedule<ShutdownTrainsJob>(scheduler, Trains.GetOffCrons());
+                Schedule<NotifyJob>(scheduler, Trains.GetNotificationCrons());
 
                 Blinksticks.Hello();
                 Blinksticks.BlinkstickOff();
@@ -68,15 +69,26 @@ namespace TrainCommuteCheckService
             }
         }
 
+
         protected override bool OnPowerEvent(PowerBroadcastStatus powerStatus)
         {
             try
             {
-                if (powerStatus == PowerBroadcastStatus.Suspend)
+
+                switch (powerStatus)
                 {
-                    DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
-                    EventLogHelper.WriteEntry($"Waking up at {utc} utc");
-                    WakeyWakey.WakeUpAt(utc);
+                    case PowerBroadcastStatus.QuerySuspend:
+                        bool active = Trains.IsMonitoringActive();
+                        if (active)
+                        {
+                            EventLogHelper.WriteEntry($"Not suspending, monitoring is active");
+                        }
+                        return !active;
+                    case PowerBroadcastStatus.Suspend:
+                        DateTime utc = Trains.WhenShouldIWakeUp().ToUniversalTime();
+                        EventLogHelper.WriteEntry($"Waking up at {utc} utc");
+                        WakeyWakey.WakeUpAt(utc);
+                        break;
                 }             
             }
             catch (Exception ex)

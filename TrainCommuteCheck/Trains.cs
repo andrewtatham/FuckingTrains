@@ -28,7 +28,7 @@ namespace TrainCommuteCheck
             string destination;
             string origin;
             string departsAt;
-            WhickWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
+            WhichWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
             trainResult.From = origin;
             trainResult.To = destination;
             trainResult.StandardTimeOfDeparture = departsAt;
@@ -85,22 +85,15 @@ namespace TrainCommuteCheck
             return trainResult;
         }
 
+
         private static TrainResult FindMyTrain(ServiceItem1[] trainServices, DateTime departureTime)
         {
-            var train = trainServices.SingleOrDefault(t => IsTheSameTime(t, departureTime));
+            var train = trainServices.SingleOrDefault(t => new TimeParser(t.std) == departureTime);
             if (train != null)
             {
                 return new TrainResult(train);
             }
             return null;
-        }
-
-        private static bool IsTheSameTime(ServiceItem1 trainService, DateTime departureTime)
-        {
-            var timeComponents = trainService.std.Split(':').Select(s => Convert.ToInt32(s)).ToArray();
-            var hour = timeComponents[0];
-            var minute = timeComponents[1];
-            return hour == departureTime.Hour && minute == departureTime.Minute;
         }
 
         private static GetDepartureBoardResponse GetRealDepartureBoardResponse(string origin, string destination,
@@ -151,7 +144,7 @@ namespace TrainCommuteCheck
             }
         }
 
-        private static void WhickWayAmIGoing(Journey journey, JourneyType journeyType, out string origin,
+        private static void WhichWayAmIGoing(Journey journey, JourneyType journeyType, out string origin,
             out string destination, out string departsAt)
         {
             switch (journeyType)
@@ -252,7 +245,7 @@ namespace TrainCommuteCheck
             string destination;
             string origin;
             string departsAt;
-            WhickWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
+            WhichWayAmIGoing(Journey, journeyLeg, out origin, out destination, out departsAt);
 
             var monitoringStartsAt = WhenShouldIStartMonitoringTheNextTrain(Journey, journeyLeg, today, tommorrow) -
                                      TimeSpan.FromMinutes(5);
@@ -264,6 +257,15 @@ namespace TrainCommuteCheck
             {
                 return now;
             }
+        }
+
+
+
+        public static bool IsMonitoringActive()
+        {
+            var now = DateTime.Now;
+
+           return Journey.Inbound.Monitor.IsActive(now) || Journey.Outbound.Monitor.IsActive(now);
         }
 
         public static string[] GetCrons()
@@ -279,6 +281,14 @@ namespace TrainCommuteCheck
             var crons = new HashSet<string>();
             crons.UnionWith(Journey.Inbound.Monitor.GetOffCrons());
             crons.UnionWith(Journey.Outbound.Monitor.GetOffCrons());
+            return crons.ToArray();
+        }
+
+        public static string[] GetNotificationCrons()
+        {
+            var crons = new HashSet<string>();
+            crons.UnionWith(Journey.Inbound.Monitor.GetNotificationCrons());
+            crons.UnionWith(Journey.Outbound.Monitor.GetNotificationCrons());
             return crons.ToArray();
         }
     }

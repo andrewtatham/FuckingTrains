@@ -81,5 +81,13 @@ namespace TrainCommuteCheckLights
                 blinkstick.SetBlinkstickState(train);
             }
         }
+
+        public void Notify()
+        {
+            foreach (var blinkstick in _blinksticks)
+            {
+                blinkstick.Notify();
+            }
+        }
     }
 }

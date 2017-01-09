@@ -21,9 +21,12 @@ namespace TrainCommuteCheckLights
         private const string CrystallBallColour = "#100010";
         private const string ServiceDown = "#000010";
 
+        private const string HelloColour = "#101010";
+        private const string NotifyColour = "#FFFFFF";
+
         private readonly BlinkStick _blinkstick;
 
-        private static TrainStatus? _previousTrainStatu;
+        private static TrainStatus? _previousTrainState;
 
 
         public BlinkstickWrapper(BlinkStick blinkstick, int n)
@@ -75,26 +78,31 @@ namespace TrainCommuteCheckLights
         public void BlinkstickOff()
         {
             All(OffColour);
-            _previousTrainStatu = null;
+            _previousTrainState = null;
             Thread.Sleep(100);
         }
 
         public void Hello()
         {
-            Blink("#080808");
+            Blink(HelloColour);
         }
 
 
         public void SetBlinkstickState(TrainResult train)
         {
-            if (!_previousTrainStatu.HasValue || _previousTrainStatu != train.TrainState)
+            SetBlinkstickState(train.TrainState, train.DelayInMinutes);
+        }
+
+        private void SetBlinkstickState(TrainStatus status, int? delay)
+        {
+            if (!_previousTrainState.HasValue || _previousTrainState != status)
             {
                 Blink(StateChangedColour);
             }
 
-            _previousTrainStatu = train.TrainState;
+            _previousTrainState = status;
 
-            switch (train.TrainState)
+            switch (status)
             {
                 case TrainStatus.Unknown:
                     All(DontKnowColour);
@@ -103,10 +111,9 @@ namespace TrainCommuteCheckLights
                     All(OnTimeColour);
                     break;
                 case TrainStatus.Delayed:
-                    int? delayInMinutes = train.DelayInMinutes;
-                    if (delayInMinutes.HasValue)
+                    if (delay.HasValue)
                     {
-                        Blink(DelayedColour, delayInMinutes.Value);
+                        Blink(DelayedColour, delay.Value);
                     }
                     All(DelayedColour);
                     break;
@@ -125,6 +132,16 @@ namespace TrainCommuteCheckLights
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public void Notify()
+        {
+            Blink(NotifyColour, 3);
+            if (_previousTrainState != null)
+            {
+                SetBlinkstickState(_previousTrainState.Value, null);
+            }
+
         }
     }
 }

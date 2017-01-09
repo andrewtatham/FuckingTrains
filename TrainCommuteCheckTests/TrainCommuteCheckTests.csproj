@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="MonitorSettingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

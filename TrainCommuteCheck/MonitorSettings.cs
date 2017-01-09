@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TrainCommuteCheck
 {
@@ -9,6 +10,7 @@ namespace TrainCommuteCheck
         public TimeParser To { get; set; }
         public int Every { get; set; }
         public TimeParser Off { get; set; }
+        public TimeParser Notify { get; set; }
 
         public string[] GetCrons()
         {
@@ -45,6 +47,19 @@ namespace TrainCommuteCheck
             return new[]
             {
                 $"0 {Off.M} {Off.H} ? * {Days}"
+            };
+        }
+
+        public bool IsActive(DateTime now)
+        {
+            return From < now && To > now;
+        }
+
+        public string[] GetNotificationCrons()
+        {
+            return new[]
+ {
+                $"0 {Notify.M} {Notify.H} ? * {Days}"
             };
         }
     }

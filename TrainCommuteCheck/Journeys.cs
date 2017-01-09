@@ -15,7 +15,8 @@
                     From = new TimeParser("6:20"),
                     To = new TimeParser("7:40"),
                     Every = 5,
-                    Off = new TimeParser("7:42")
+                    Off = new TimeParser("7:42"),
+                    Notify = new TimeParser("7:05")
                 }
             },
             Inbound = new JourneyLeg
@@ -29,7 +30,8 @@
                     From = new TimeParser("16:15"),
                     To = new TimeParser("16:38"),
                     Every = 5,
-                    Off = new TimeParser("16:40")
+                    Off = new TimeParser("16:40"),
+                    Notify = new TimeParser("16:25")
                 }
             }
         };
